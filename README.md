@@ -12,17 +12,17 @@ Building your own IoT platform is not only the biggest cost saver, but also can 
 * Gives you complete control over your IoT platform
 * Covers all aspects of the project
 
-#### What You Will Learn
+#### You will learn to...
 1. Architect an interconnected system
 2. Develop a flexible architecture
 3. Create a redundant communication platform
 4. Prioritize system requirements with a bottom-up approach
 
-#### Who This Book Is For
+#### This book is for
 IoT developers and development teams in small- to medium-sized companies. Basic to intermediate programming skills are required. 
 
 ## Order
-The book can be ordered here: https://www.apress.com/gp/book/9781484244975*
+The book can be ordered here: https://www.apress.com/gp/book/9781484244975
 
 
 # Introduction
