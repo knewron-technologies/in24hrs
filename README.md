@@ -18,7 +18,7 @@ Building your own IoT platform is not only the biggest cost saver, but also can 
 3. Create a redundant communication platform
 4. Prioritize system requirements with a bottom-up approach
 
-#### This book is for
+#### This book is for...
 IoT developers and development teams in small- to medium-sized companies. Basic to intermediate programming skills are required. 
 
 ## Order
