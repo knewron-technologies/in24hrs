@@ -21,8 +21,8 @@ Building your own IoT platform is not only the biggest cost saver, but also can 
 #### Who This Book Is For
 IoT developers and development teams in small- to medium-sized companies. Basic to intermediate programming skills are required. 
 
-
-*The book can be ordered here: https://www.apress.com/gp/book/9781484244975*
+## Order
+The book can be ordered here: https://www.apress.com/gp/book/9781484244975*
 
 
 # Introduction
