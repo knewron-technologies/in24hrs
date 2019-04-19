@@ -1,0 +1,836 @@
+swagger: '2.0'
+info:
+  title: in24hrs.the.book
+  description: |
+    This page provides documentation and also serves as a test sandbox for **in24hrs** platform.
+
+    **w:** [www.in24hrs.xyz](https://www.in24hrs.xyz)
+    **e:** in24hrs@anandtamboli.com
+  version: "1.0.1"
+schemes:
+  - https
+host: 'www.in24hrs.xyz:1880'
+basePath: /
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: authorization
+    in: header
+paths:
+#-------------------------------------------------------------------------------
+# 1 Data publishing API
+#-------------------------------------------------------------------------------
+  /pub/{topic}/{payload}:
+    post:
+      description: 'create a new data {payload} for a {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '1 Data publishing API'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Topic to publish data for'
+          type: string
+          required: true
+        - name: payload
+          in: path
+          description: 'Message payload for given topic, could be plain text, binary, json, or any other format'
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 'Response to post/publish operation'
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                description: 'Success status of operation'
+              message:
+                type: object
+                description: 'Additional response text'
+#-------------------------------------------------------------------------------
+# 2 Data reading API
+#-------------------------------------------------------------------------------
+  /get/{topic}:
+    get:
+      description: 'Get the latest data from specified {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '2 Data reading API'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Get a latest data from {topic}'
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 'Data contents with metadata'
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: 'Message id'
+              topic:
+                type: string
+                description: 'Message topic'
+              payload:
+                type: string
+                description: 'Message payload'
+              timestamp:
+                type: string
+                description: 'Timestamp when this message was created - in UNIX format'
+  /get/{topic}/last/{count}:
+    get:
+      description: 'Get latest {count} number of data records for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '2 Data reading API'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Get multiple data records from {topic}'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: '{count} of how many records are required'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Data contents with metadata'
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: 'Message id'
+              topic:
+                type: string
+                description: 'Message topic'
+              payload:
+                type: string
+                description: 'Message payload'
+              timestamp:
+                type: string
+                description: 'Timestamp when this message was created - in UNIX format'
+  /get/topicLike/{topic}/payloadLIke/{payload}/last/{count}:
+    get:
+      description: 'Get {count} number of records for the given wildcard {topic} and {payload} search'
+      security:
+        - Bearer: []
+      tags:
+        - '2 Data reading API'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Topic wildcard, use * as wildcard. Multiple wildcards allowed'
+          type: string
+          required: true
+        - name: payload
+          in: path
+          description: 'Payload wildcard, use * as wildcard. Multiple wildcards allowed'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: 'Count of number of records required'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Data contents with metadata that has at least one match with {content filter}'
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: 'Message id'
+              topic:
+                type: string
+                description: 'Message topic'
+              payload:
+                type: string
+                description: 'Message payload'
+              timestamp:
+                type: string
+                description: 'Timestamp when this message was created - in UNIX format'
+  /get/{topic}/before/{timestamp}/last/{count}:
+    get:
+      description: 'Get data before {timestamp} for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '2 Data reading API'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Get multiple data records from {topic}'
+          type: string
+          required: true
+        - name: timestamp
+          in: path
+          description: '{timestamp} before (inclusive) which data is required'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: '{count} of records required in output'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Data contents with metadata'
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: 'Message id'
+              topic:
+                type: string
+                description: 'Message topic'
+              payload:
+                type: string
+                description: 'Message payload'
+              timestamp:
+                type: string
+                description: 'Timestamp when this message was created - in UNIX format'
+  /get/{topic}/after/{timestamp}/last/{count}:
+    get:
+      description: 'Get data after {timestamp} for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '2 Data reading API'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Get multiple data records from {topic}'
+          type: string
+          required: true
+        - name: timestamp
+          in: path
+          description: '{timestamp} after (inclusive) which data is required'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: '{count} of records required in output'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Data contents with metadata'
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: 'Message id'
+              topic:
+                type: string
+                description: 'Message topic'
+              payload:
+                type: string
+                description: 'Message payload'
+              timestamp:
+                type: string
+                description: 'Timestamp when this message was created - in UNIX format'
+  /get/{topic}/during/{start timestamp}/{end timestamp}/last/{count}:
+    get:
+      description: 'Get data during {start timestamp} and {end timestamp}, both inclusive for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '2 Data reading API'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Get multiple data records from {topic}'
+          type: string
+          required: true
+        - name: start timestamp
+          in: path
+          description: '{start timestamp} after (inclusive) which data is required'
+          type: string
+          required: true
+        - name: end timestamp
+          in: path
+          description: '{end timestamp} before (inclusive) which data is required'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: '{count} of records required in output'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Data contents with metadata'
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: 'Message id'
+              topic:
+                type: string
+                description: 'Message topic'
+              payload:
+                type: string
+                description: 'Message payload'
+              timestamp:
+                type: string
+                description: 'Timestamp when this message was created - in UNIX format'
+#-------------------------------------------------------------------------------
+# 3 API for deleting records
+#-------------------------------------------------------------------------------
+  /delete/{topic}:
+    get:
+      description: 'Deletes all the datapoints for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '3 API for deleting records'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Message topic of which records to be deleted'
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 'Responds with how many records found matching the criteria and how many changed'
+          schema:
+            type: object
+            properties:
+              found:
+                type: number
+                description: 'Count of records found'
+              changed:
+                type: number
+                description: 'Count of records changed'
+  /delete/{topic}/id/{id}:
+    get:
+      description: 'Deletes specific datapoint for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '3 API for deleting records'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Message topic of which record to be deleted'
+          type: string
+          required: true
+        - name: id
+          in: path
+          description: 'Record id of the datapoint to be deleted'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Responds with how many records found matching the criteria and how many changed'
+          schema:
+            type: object
+            properties:
+              found:
+                type: number
+                description: 'Count of records found'
+              changed:
+                type: number
+                description: 'Count of records changed'
+  /delete/{topic}/last/{count}:
+    get:
+      description: 'Deletes latest {count} number of datapoints for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '3 API for deleting records'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Message topic of which record to be deleted'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: 'Number of datapoints to be deleted'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Responds with how many records found matching the criteria and how many changed'
+          schema:
+            type: object
+            properties:
+              found:
+                type: number
+                description: 'Count of records found'
+              changed:
+                type: number
+                description: 'Count of records changed'
+  /delete/{topic}/first/{count}:
+    get:
+      description: 'Deletes first {count} number of datapoints for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '3 API for deleting records'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Message topic of which record to be deleted'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: 'Number of datapoints to be deleted'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Responds with how many records found matching the criteria and how many changed'
+          schema:
+            type: object
+            properties:
+              found:
+                type: number
+                description: 'Count of records found'
+              changed:
+                type: number
+                description: 'Count of records changed'
+#-------------------------------------------------------------------------------
+# 4 Micro-services API
+#-------------------------------------------------------------------------------
+  /timestamp:
+    get:
+      description: 'Get the current timestamp from platform'
+      security:
+        - Bearer: []
+      tags:
+        - '4 Micro-services API'
+      responses:
+        '200':
+          description: 'Current timestamp in UNIX microsecond format'
+          schema:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                description: 'Timestamp in UNIX format'
+  /uuid:
+    get:
+      description: 'Get unique UUID (V4)'
+      security:
+        - Bearer: []
+      tags:
+        - '4 Micro-services API'
+      responses:
+        '200':
+          description: 'Unique UUID string'
+          schema:
+            type: object
+            properties:
+              uuid:
+                type: string
+                description: 'UUID string (v4)'
+  /randomcode/{len}:
+    get:
+      description: 'Get alpha-numeric random code of specified length'
+      security:
+        - Bearer: []
+      tags:
+        - '4 Micro-services API'
+      parameters:
+        - name: len
+          in: path
+          description: 'Length of the random-code string'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Random code string'
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                description: 'Randomized string of required length'
+  /sms/to/{to}/message/{message}:
+    get:
+      description: 'Send text message to the specified mobile number'
+      security:
+        - Bearer: []
+      tags:
+        - '4 Micro-services API'
+      parameters:
+        - name: to
+          in: path
+          description: 'Fully qualified mobile number including coutnry prefix and + sign'
+          type: string
+          required: true
+        - name: message
+          in: path
+          description: 'Text message contents'
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 'Text message sending status'
+          schema:
+            type: object
+            properties:
+              smsTo:
+                type: string
+                description: 'Playback of target number for API caller'
+              message:
+                type: string
+                description: 'Playback of message for API caller'
+              status:
+                type: string
+                description: 'Status of SMS sending operation'
+  /email/to/{to}/subject/{subject}/message/{message}:
+    get:
+      description: 'Send text message to the specified mobile number'
+      security:
+        - Bearer: []
+      tags:
+        - '4 Micro-services API'
+      parameters:
+        - name: to
+          in: path
+          description: 'Single target email address to which email messageto be sent'
+          type: string
+          required: true
+        - name: subject
+          in: path
+          description: 'Subject line for email'
+          type: string
+          required: true
+        - name: message
+          in: path
+          description: 'Email message body'
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 'Email message sending status'
+          schema:
+            type: object
+            properties:
+              to:
+                type: string
+                description: 'Playback of target email address for API caller'
+              status:
+                type: string
+                description: 'Status of Email sending operation'
+#-------------------------------------------------------------------------------
+# 5 Rule engine API
+#-------------------------------------------------------------------------------
+  /rules/add/{ruleName}:
+    post:
+      description: 'create a new rule named {ruleName}'
+      security:
+        - Bearer: []
+      tags:
+        - '5 Rule engine'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: ruleName
+          in: path
+          description: 'Readable name for the rule'
+          type: string
+          required: true
+        - name: topicPattern
+          in: formData
+          description: 'Topic pattern to be matched while rule qualification'
+          type: string
+          required: true
+        - name: payloadPattern
+          in: formData
+          description: 'Payload pattern to be matched while rule qualification'
+          type: string
+          required: true
+        - name: method
+          in: formData
+          description: 'Webhook URL calling method, such as GET/POST, etc.'
+          type: string
+          required: true
+        - name: webHook
+          in: formData
+          description: 'Webhook URL to be called when rule is triggered'
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 'Rule creation status with id of a created rule'
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+                description: 'Result of operation'
+              ruleName:
+                type: string
+                description: 'Playback of rule name for API caller'
+              ruleID:
+                type: number
+                description: 'Rule id of newly added rule'
+  /rules/enable/{id}:
+    get:
+      description: 'Enable specified rule'
+      security:
+        - Bearer: []
+      tags:
+        - '5 Rule engine'
+      parameters:
+        - name: id
+          in: path
+          description: 'Rule id to be enabled'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Rule enabling status as success or failure'
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: 'Operation status'
+              found:
+                type: number
+                description: 'Number of rules found matching the criteria'
+              changed:
+                type: number
+                description: 'Number of rules changed'
+  /rules/enableAll:
+    get:
+      description: 'Enable all rules at once'
+      security:
+        - Bearer: []
+      tags:
+        - '5 Rule engine'
+      responses:
+        '200':
+          description: 'Rule enabling status as success or failure'
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: 'Operation status'
+              found:
+                type: number
+                description: 'Number of rules found matching the criteria'
+              changed:
+                type: number
+                description: 'Number of rules changed'
+  /rules/disable/{id}:
+    get:
+      description: 'Disable specified rule'
+      security:
+        - Bearer: []
+      tags:
+        - '5 Rule engine'
+      parameters:
+        - name: id
+          in: path
+          description: 'Rule id to be disabled'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Rule disabling status as success or failure'
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: 'Operation status'
+              found:
+                type: number
+                description: 'Number of rules found matching the criteria'
+              changed:
+                type: number
+                description: 'Number of rules changed'
+  /rules/disableAll:
+    get:
+      description: 'Disable all rules at once'
+      security:
+        - Bearer: []
+      tags:
+        - '5 Rule engine'
+      responses:
+        '200':
+          description: 'Rule disabling status as success or failure'
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: 'Operation status'
+              found:
+                type: number
+                description: 'Number of rules found matching the criteria'
+              changed:
+                type: number
+                description: 'Number of rules changed'
+  /rules/delete/{id}:
+    get:
+      description: 'Delete specified rule'
+      security:
+        - Bearer: []
+      tags:
+        - '5 Rule engine'
+      parameters:
+        - name: id
+          in: path
+          description: 'Rule id to be deleted'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Rule deletion status'
+          schema:
+            type: object
+            properties:
+              action:
+                type: string
+                description: 'Operation status'
+              found:
+                type: number
+                description: 'Number of rules found matching the criteria'
+              deleted:
+                type: number
+                description: 'Number of rules deleted'
+#-------------------------------------------------------------------------------
+# 6 API for deleting records - permanently
+#-------------------------------------------------------------------------------
+  /purge/{topic}:
+    delete:
+      description: 'Purges all the datapoints for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '6 API for deleting records - permanently'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Message topic of which records to be Purged'
+          type: string
+          required: true
+      responses:
+        '200':
+          description: 'Responds with how many records found matching the criteria and how many purged'
+          schema:
+            type: object
+            properties:
+              found:
+                type: number
+                description: 'Count of records found'
+              changed:
+                type: number
+                description: 'Count of records changed'
+  /purge/{topic}/id/{id}:
+    delete:
+      description: 'Purges specific datapoint for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '6 API for deleting records - permanently'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Message topic of which record to be Purged'
+          type: string
+          required: true
+        - name: id
+          in: path
+          description: 'Record id of the datapoint to be Purged'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Responds with how many records found matching the criteria and how many purged'
+          schema:
+            type: object
+            properties:
+              found:
+                type: number
+                description: 'Count of records found'
+              changed:
+                type: number
+                description: 'Count of records changed'
+  /purge/{topic}/last/{count}:
+    delete:
+      description: 'Purges latest {count} number of datapoints for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '6 API for deleting records - permanently'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Message topic of which record to be Purged'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: 'Number of datapoints to be Purged'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Responds with how many records found matching the criteria and how many purged'
+          schema:
+            type: object
+            properties:
+              found:
+                type: number
+                description: 'Count of records found'
+              changed:
+                type: number
+                description: 'Count of records changed'
+  /purge/{topic}/first/{count}:
+    delete:
+      description: 'Purges first {count} number of datapoints for {topic}'
+      security:
+        - Bearer: []
+      tags:
+        - '6 API for deleting records - permanently'
+      parameters:
+        - name: topic
+          in: path
+          description: 'Message topic of which record to be Purged'
+          type: string
+          required: true
+        - name: count
+          in: path
+          description: 'Number of datapoints to be Purged'
+          type: number
+          required: true
+      responses:
+        '200':
+          description: 'Responds with how many records found matching the criteria and how many purged'
+          schema:
+            type: object
+            properties:
+              found:
+                type: number
+                description: 'Count of records found'
+              changed:
+                type: number
+                description: 'Count of records changed'
+#-------------------------------------------------------------------------------
+# EOF
+#-------------------------------------------------------------------------------
