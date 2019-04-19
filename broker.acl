@@ -1,0 +1,17 @@
+# GENERAL
+topic read timestamp/#
+
+# USERS
+user admin
+topic readwrite #
+
+# APPLICATION AS A USER
+user my_app_name
+topic read timestamp/#
+topic readwrite myapp/%c/#
+
+# PATTERNS
+topic read timestamp/#
+pattern readwrite users/%u/#
+pattern write %c/up/#
+pattern read %c/dn/#
