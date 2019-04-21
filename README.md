@@ -44,15 +44,15 @@ If you are a small to medium-sized company or part of the development team from 
 
 The book supports the idea of being frugal at the start and then invest only when and where necessary. It would help you to tap into technology advancements without bank-breaking budgets, and get off the ground quickly, contrary to the longer times required to adapt to the off the shelf or freemium platforms. More importantly, you will be in full control of what you are developing throughout the process.
 
-Throughout 12 chapters of this book, I will guide you through the step-by-step process of building your own IoT platform. There are must-haves and there are nice to haves; I will distinguish the two and focus on how to build must-haves. You would not only save heaps but also will enjoy a control wielding and satisfying learning experience.
+Throughout 12 chapters of this book, I guide you through the step-by-step process of building your own IoT platform. There are must-haves and there are nice to haves; I distinguish the two and focus on how to build must-haves. You would not only save heaps but also will enjoy a control wielding and satisfying learning experience.
 
-In the first chapter, I will discuss necessary and sufficient qualities that any IoT platform must have & why. I will also elaborate on the key question - why should you build your own?
+In the first chapter, I discuss necessary and sufficient qualities that any IoT platform must have & why. I also elaborate on the key question - why should you build your own?
 
 Building your own means understanding at ecosystem level is important, we do that in chapter 2, where block diagram level details of IoT and platform are discussed.
 
 Better planning is a key to success that reduces confusion and agony later on. So, I would cover platform wish-list, technical and general requirements for the building of our platform in chapter 3 and 4.
 
-The rubber actually hits the road in chapter 5, where we will initialize the cloud instance, install required software stack and apply security. If you are eager to jump into the "how" of building things, this is where you might want to start (and read about the "why" later).
+The rubber actually hits the road in chapter 5, where we initialize the cloud instance, install required software stack and apply security. If you are eager to jump into the "how" of building things, this is where you might want to start (and read about the "why" later).
 
 One of the core elements of the platform is a two-way messaging system bus, which is explained in chapter 6 along with the installation of broker software and securing it.
 
@@ -60,9 +60,9 @@ Building of critical components of the platform, and message broker extension wi
 
 In chapter 9, additional micro-services and data access APIs are covered along with the foundation for the rule engine. Then we build full rule-engine and authentication mechanism in chapter 10.
 
-In chapter 11, we will add some documentation and provide the testing facility for developers with interactive API documentation.
+In chapter 11, we add some documentation and provide the testing facility for developers with interactive API documentation.
 
-Finally, in chapter 12, I will address a few commonly asked questions in various forums, discuss a few advancements that are in progress, which you might want to add to the platform when you build it. As I conclude, I will leave you with a few possibilities to experiment.
+Finally, in chapter 12, I address a few commonly asked questions in various forums, discuss a few advancements that are in progress, which you might want to add to the platform when you build it. As I conclude, I leave you with a few possibilities to experiment.
 
 Remember that all the code and configuration files discussed in the book are available in this repo. Feel free to star, fork or download them as you wish, and if you have more to add or suggest, I will be happy to hear from you.
 
